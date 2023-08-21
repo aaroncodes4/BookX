@@ -15,7 +15,7 @@ const Swipe = () => {
   )
 }
 
-export default Swipe
+export default Swipe;
 
 const styles = StyleSheet.create({
     container: {
