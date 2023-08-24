@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import StackNavigator from './StackNavigator';
 import { Provider as PaperProvider } from 'react-native-paper';
 
+
 export default function App() {
   return (
     <PaperProvider>

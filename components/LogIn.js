@@ -13,9 +13,42 @@ import { useNavigation } from "@react-navigation/native";
 import Colors from "../constants/Colors";
 import Button from "../basics/Button";
 import Checkbox from "expo-checkbox";
+import { auth } from "../config";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LogIn = () => {
   const [checked, setChecked] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigation = useNavigation();
+
+  const handleLogIn =async () => {
+    console.log("Log In");
+
+    try {
+    
+    
+      const user = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(user);
+      navigation.navigate("Home");
+      setEmail("");
+      setPassword("");
+  
+      
+
+  } catch (error) {
+    console.log(error);
+    console.log("something went wrong")
+
+  }}
+
+  
+
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: "#fff", justifyContent: "center" }}
@@ -38,7 +71,7 @@ const LogIn = () => {
             textAlign: "center",
             marginVertical: 12,
             fontWeight: 700,
-            color: Colors.primary,
+            color: Colors.secondary,
           }}
         >
           Log In
@@ -48,7 +81,7 @@ const LogIn = () => {
             style={{
               fontSize: 25,
               fontWeight: 800,
-              color: Colors.primary,
+              color: Colors.secondary,
               marginVertical: 10,
             }}
           >
@@ -56,7 +89,7 @@ const LogIn = () => {
           </Text>
           <View
             style={{
-              borderColor: Colors.primary,
+              borderColor: Colors.secondary,
               borderWidth: 1,
               width: "100%",
               height: 50,
@@ -69,11 +102,13 @@ const LogIn = () => {
             <TextInput
               placeholder="Enter your username"
               keyboardType="email-address"
-              placeholderTextColor={Colors.primary}
+              placeholderTextColor={Colors.secondary}
+              onChangeText={(text) => setEmail(text)}
+              value={email}
               style={{
                 width: "100%",
                 fontSize: 18,
-                color: Colors.primary,
+                color: Colors.secondary,
               }}
             />
           </View>
@@ -83,7 +118,7 @@ const LogIn = () => {
             style={{
               fontSize: 25,
               fontWeight: 800,
-              color: Colors.primary,
+              color: Colors.secondary,
               marginVertical: 10,
             }}
           >
@@ -91,7 +126,7 @@ const LogIn = () => {
           </Text>
           <View
             style={{
-              borderColor: Colors.primary,
+              borderColor: Colors.secondary,
               borderWidth: 1,
               width: "100%",
               height: 50,
@@ -102,13 +137,16 @@ const LogIn = () => {
             }}
           >
             <TextInput
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+
               placeholder="Enter your password"
               keyboardType="email-address"
-              placeholderTextColor={Colors.primary}
+              placeholderTextColor={Colors.secondary}
               style={{
                 width: "100%",
                 fontSize: 18,
-                color: Colors.primary,
+                color: Colors.secondary,
               }}
             />
           </View>
@@ -125,13 +163,16 @@ const LogIn = () => {
           <Checkbox 
             value={checked} 
             onValueChange={setChecked}
-            color={checked ? Colors.primary : undefined}
+            color={checked ? Colors.secondary : undefined}
           />
           <TouchableOpacity>
             <Text style={{fontSize: 18, fontWeight: 500, color: 'grey'}}>Forgot password?</Text>
           </TouchableOpacity>
         </View>
-        <Button title="Log In" filled style={{ marginVertical: 20 }} />
+        <Button title="Log In" filled style={{ marginVertical: 20 }}
+        
+        onPress={handleLogIn}
+        />
         <View 
             style={{
                 borderWidth: 1,

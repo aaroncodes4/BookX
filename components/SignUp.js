@@ -5,6 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,13 +15,59 @@ import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import Button from "../basics/Button";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
+import { auth } from "../config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUp = () => {
-  const [password, setPassword] = useState(false);
-  const [checked, setChecked] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+ // const [username, setUsername] = useState("");
+ // const [checked, setChecked] = useState("");
+  const [email, setEmail] = useState("");
+  const navigation = useNavigation();
+
+  const handleSignUp = async ()=>{
+    if(password !== confirmPassword){
+      Alert.alert("Passwords don't match")
+    }
+
+    try {
+    
+    
+        const user = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log(user);
+        navigation.navigate("Home");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+
+  
+    } catch (error) {
+      console.log(error);
+      console.log("something went wrong")
+    }
+  }
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.light }}>
-      <View style={{ flex: 1, marginHorizontal: 20 }}>
+      <View style={{ flex: 1, marginHorizontal: 20, justifyContent: 'center' }}>
+      <View style={{backgroundColor: '#fff', width: '100%', height: 100, marginBottom: 110,}}>
+            <Image 
+                source={require('../assets/sign.png')}
+                style={{
+                    width: "100%",
+                    height: 250,
+                    resizeMode: 'contain',
+                    
+                }}
+            />
+        </View>
         <View>
           <Text
             style={{
@@ -27,55 +75,20 @@ const SignUp = () => {
               textAlign: "center",
               marginVertical: 12,
               fontWeight: 700,
-              color: Colors.primary,
+              color: Colors.secondary,
             }}
           >
             Create an account
           </Text>
         </View>
-        {/* username */}
-        <View style={{ marginBottom: 12 }}>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: 800,
-              color: Colors.primary,
-              marginVertical: 10,
-            }}
-          >
-            Username
-          </Text>
-          <View
-            style={{
-              borderColor: Colors.primary,
-              borderWidth: 1,
-              width: "100%",
-              height: 50,
-              borderRadius: 8,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: 22,
-            }}
-          >
-            <TextInput
-              placeholder="Enter your username"
-              keyboardType="email-address"
-              placeholderTextColor={Colors.primary}
-              style={{
-                width: "100%",
-                fontSize: 18,
-                color: Colors.primary,
-              }}
-            />
-          </View>
-        </View>
+    
         {/* email */}
         <View style={{ marginBottom: 12 }}>
           <Text
             style={{
               fontSize: 25,
               fontWeight: 800,
-              color: Colors.primary,
+              color: Colors.secondary,
               marginVertical: 10,
             }}
           >
@@ -83,7 +96,7 @@ const SignUp = () => {
           </Text>
           <View
             style={{
-              borderColor: Colors.primary,
+              borderColor: Colors.secondary,
               borderWidth: 1,
               width: "100%",
               height: 50,
@@ -96,47 +109,13 @@ const SignUp = () => {
             <TextInput
               placeholder="Enter your email address"
               keyboardType="email-address"
-              placeholderTextColor={Colors.primary}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              placeholderTextColor={Colors.secondary}
               style={{
                 width: "100%",
                 fontSize: 18,
-                color: Colors.primary,
-              }}
-            />
-          </View>
-        </View>
-        {/* phone */}
-        <View style={{ marginBottom: 12 }}>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: 800,
-              color: Colors.primary,
-              marginVertical: 10,
-            }}
-          >
-            Phone number
-          </Text>
-          <View
-            style={{
-              borderColor: Colors.primary,
-              borderWidth: 1,
-              width: "100%",
-              height: 50,
-              borderRadius: 8,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: 22,
-            }}
-          >
-            <TextInput
-              placeholder="Enter your phone number"
-              keyboardType="numeric"
-              placeholderTextColor={Colors.primary}
-              style={{
-                width: "100%",
-                fontSize: 18,
-                color: Colors.primary,
+                color: Colors.secondary,
               }}
             />
           </View>
@@ -149,7 +128,7 @@ const SignUp = () => {
             style={{
               fontSize: 25,
               fontWeight: 800,
-              color: Colors.primary,
+              color: Colors.secondary,
               marginVertical: 10,
             }}
           >
@@ -157,7 +136,7 @@ const SignUp = () => {
           </Text>
           <View
             style={{
-              borderColor: Colors.primary,
+              borderColor: Colors.secondary,
               borderWidth: 1,
               width: "100%",
               flexDirection: "row",
@@ -170,21 +149,23 @@ const SignUp = () => {
           >
             <TextInput
               placeholder="Enter your password"
-              secureTextEntry={password}
-              placeholderTextColor={Colors.primary}
+              secureTextEntry
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              placeholderTextColor={Colors.secondary}
               style={{
                 width: "90%",
                 fontSize: 18,
-                color: Colors.primary,
+                color: Colors.secondary,
               }}
             />
-            <TouchableOpacity onPress={() => setPassword(!password)}>
+            {/* <TouchableOpacity onPress={() => setPassword(!password)}>
               {password == false ? (
-                  <Ionicons name="ios-eye" size={24} color="black" />
-                  ) : (
-                      <Ionicons name="ios-eye-off" size={24} color="black" />
+                <Ionicons name="ios-eye-off" size={24} color="black" />
+                ) : (
+                    <Ionicons name="ios-eye" size={24} color="black" />
               )}
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         {/* confirm password */}
@@ -194,7 +175,7 @@ const SignUp = () => {
             style={{
               fontSize: 25,
               fontWeight: 800,
-              color: Colors.primary,
+              color: Colors.secondary,
               marginVertical: 10,
             }}
           >
@@ -202,7 +183,7 @@ const SignUp = () => {
           </Text>
           <View
             style={{
-              borderColor: Colors.primary,
+              borderColor: Colors.secondary,
               borderWidth: 1,
               width: "100%",
               flexDirection: "row",
@@ -213,21 +194,38 @@ const SignUp = () => {
               paddingHorizontal: 10,
             }}
           >
-            <TextInput
+            {/* <TextInput
               placeholder="Enter your password"
-              secureTextEntry={password}
-              placeholderTextColor={Colors.primary}
+              secureTextEntry
+             
+             
+value={confirmPassword}
+              onChangeText={(e) => setConfirmPassword(e.target.value)}
+              placeholderTextColor={Colors.secondary}
               style={{
                 width: "90%",
                 fontSize: 18,
-                color: Colors.primary,
+                color: Colors.secondary,
+              }}
+            /> */}
+            <TextInput
+              placeholder="Enter your password"
+              secureTextEntry 
+              value={confirmPassword}
+              onChangeText={(text) => setConfirmPassword(text)}
+              placeholderTextColor={Colors.secondary}
+              style={{
+                width: "90%",
+                fontSize: 18,
+                color: Colors.secondary,
               }}
             />
-            <TouchableOpacity onPress={() => setPassword(!password)}>
-              {password == false ? (
-                  <Ionicons name="ios-eye" size={24} color="black" />
-                  ) : (
-                  <Ionicons name="ios-eye-off" size={24} color="black" />
+
+            <TouchableOpacity onPress={() => setConfirmPassword(!confirmPassword)}>
+              {confirmPassword == true ? (
+                <Ionicons name="ios-eye-off" size={24} color="black" />
+                ) : (
+                <Ionicons name="ios-eye" size={24} color="black" />
               )}
             </TouchableOpacity>
           </View>
@@ -239,7 +237,7 @@ const SignUp = () => {
             alignItems: "center",
           }}
         >
-          <Checkbox
+          {/* <Checkbox
             style={{ marginRight: 10 }}
             value={checked}
             onValueChange={setChecked}
@@ -247,10 +245,14 @@ const SignUp = () => {
           />
           <Text style={{ fontSize: 18, fontWeight: 600 }}>
             I agree to terms and conditions
-          </Text>
+          </Text> */}
+
         </View>
-        <Button title="Sign up" filled style={{ marginVertical: 10 }} />
+        <Button title="Sign up" filled style={{ marginVertical: 10 }} onPress={handleSignUp}
+         />
+
         {/* sign with */}
+
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View 
                 style={{
@@ -270,15 +272,18 @@ const SignUp = () => {
                 }}
             />
         </View>
+
+        {/* other sign ups */}
+
         <View style={{flexDirection: 'row', justifyContent: 'space-around', marginVertical: 10}}>
-            <TouchableOpacity style={{paddingVertical: 10,paddingHorizontal: 60, borderRadius: 10, backgroundColor: Colors.primary}}>
+            <TouchableOpacity style={{paddingVertical: 10,paddingHorizontal: 60, borderRadius: 10, backgroundColor: Colors.secondary}}>
                 <MaterialCommunityIcons name="facebook" size={30} color="#fff" />
             </TouchableOpacity>
-            <TouchableOpacity style={{paddingVertical: 10,paddingHorizontal: 60, borderRadius: 10, backgroundColor: Colors.primary}}>
+            <TouchableOpacity style={{paddingVertical: 10,paddingHorizontal: 60, borderRadius: 10, backgroundColor: Colors.secondary}}>
                 <Ionicons name="logo-google" size={30} color="#fff" />
             </TouchableOpacity>
         </View>
-        <Pressable>
+        <Pressable onPress={() => navigation.navigate("LogIn")}>
             <Text
             style={{
                 textAlign: "center",

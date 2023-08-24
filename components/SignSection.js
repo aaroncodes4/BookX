@@ -8,20 +8,21 @@ import {
 import React from "react";
 import Colors from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
+import Button from "../basics/Button";
 
 const SignSection = () => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
-        disabled={true}
+      disabled={true}
       style={{
         position: "absolute",
         top: 350,
-        width: "91%",
+        width: "90%",
         zIndex: 1,
+        borderRadius: 20,
         left: 20,
-        right: 20,
         padding: 20,
         backgroundColor: "#fff",
       }}
@@ -32,48 +33,33 @@ const SignSection = () => {
           textAlign: "center",
           paddingBottom: 30,
           fontWeight: 800,
-          color: Colors.primary,
+          color: Colors.secondary,
         }}
       >
         Ready to explore?
       </Text>
       <Pressable
         style={{
-          flexDirection: "row",
+          flexDirection: "column",
+          gap: 20,
           justifyContent: "space-around",
         }}
       >
-        <TouchableOpacity
-          onPress={() => navigation.navigate("SignUp")}
+        <Button title="Sign Up" filled onPress={() => navigation.navigate("SignUp")}/>
+        <Button
+          onPress={() => navigation.navigate("LogIn")}
+          title="Log In"
+          filled
           style={{
             backgroundColor: Colors.secondary,
-            paddingVertical: 20,
-            paddingHorizontal: 40,
-            borderRadius: 10,
+            borderColor: Colors.secondary,
           }}
-        >
-          <Text style={{ color: "#fff", fontSize: 20, fontWeight: 600 }}>
-            Sign up
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-            onPress={() => navigation.navigate("LogIn")}
-          style={{
-            backgroundColor: Colors.primary,
-            paddingVertical: 20,
-            paddingHorizontal: 40,
-            borderRadius: 10,
-          }}
-        >
-          <Text style={{ color: "#fff", fontSize: 20, fontWeight: 600 }}>
-            Log in
-          </Text>
-        </TouchableOpacity>
+        />
       </Pressable>
     </TouchableOpacity>
   );
 };
 
-export default SignSection ;
+export default SignSection;
 
 const styles = StyleSheet.create({});

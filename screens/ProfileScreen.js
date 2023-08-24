@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, View, Pressable, ScrollView, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from '@expo/vector-icons';
@@ -8,8 +8,31 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import Colors from "../constants/Colors";
+import { auth } from "../config";
+import { signOut } from "firebase/auth";
+import { useNavigation } from "@react-navigation/native";
+
+
 
 const ProfileScreen = () => {
+
+
+    
+ const navigation = useNavigation();
+  const handleLogout = () => {
+    //log out the user
+    signOut(auth)
+      .then(() => {
+        navigation.navigate("LogIn");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+      
+      // Sign-out successful.
+    
+  };
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -46,10 +69,10 @@ const ProfileScreen = () => {
         }}
       >
         <View>
-          <Text style={{ fontSize: 22, color: "#0f1b3d", fontWeight: 600, }}>
+          <Text style={{ fontSize: 22, color: Colors.secondary, fontWeight: 600, }}>
             Aaron Apraku
           </Text>
-          <Text style={{ fontSize: 15, color: "#0f1b3d", fontWeight: 600, paddingBottom: 5 }}>
+          <Text style={{ fontSize: 15, color: Colors.secondary, fontWeight: 600, paddingBottom: 5 }}>
             @aaronsimeoni
           </Text>
           <Text style={{ fontSize: 15, maxWidth: "90%" }}>
@@ -59,7 +82,7 @@ const ProfileScreen = () => {
         <Pressable
           style={{
             backgroundColor: "transparent",
-            borderColor: "#ff6000",
+            borderColor: Colors.secondary,
             borderWidth: 2,
             borderRadius: 10,
             padding: 10,
@@ -72,68 +95,75 @@ const ProfileScreen = () => {
       <View style={{marginVertical: 30, flexDirection: 'column', gap: 20,}}>
           <Pressable style={styles.cont}>
             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-              <MaterialIcons name="payment" size={24} color="#ff6000" />
+              <MaterialIcons name="payment" size={24} color="#303030" />
               <Text style={styles.txt}>Payment method</Text>
             </View>
-            <FontAwesome name="angle-right" size={24} color="#ff6000"/>
+            <FontAwesome name="angle-right" size={24} color="#303030"/>
           </Pressable>
           <Pressable style={styles.cont}>
             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-              <MaterialIcons name="preview" size={24} color="#ff6000" />
+              <MaterialIcons name="preview" size={24} color="#303030" />
               <Text style={styles.txt}>Reviews</Text>
             </View>
-            <FontAwesome name="angle-right" size={24} color="#ff6000"/>
+            <FontAwesome name="angle-right" size={24} color="#303030"/>
           </Pressable>
           <Pressable style={styles.cont}>
             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-              <AntDesign name="setting" size={24} color="#ff6000" />
+              <AntDesign name="setting" size={24} color="#303030" />
               <Text Text style={styles.txt}>Settings</Text>
             </View>
-            <FontAwesome name="angle-right" size={24} color="#ff6000"/>
+            <FontAwesome name="angle-right" size={24} color="#303030"/>
           </Pressable>
           <Pressable style={styles.cont}>
             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-              <FontAwesome name="handshake-o" size={22} color="#ff6000" />
+              <FontAwesome name="handshake-o" size={22} color="#303030" />
               <Text style={styles.txt}>Invite friends</Text>
             </View>
-            <FontAwesome name="angle-right" size={24} color="#ff6000" />
+            <FontAwesome name="angle-right" size={24} color="#303030" />
           </Pressable>
           {/*  */}
           <Pressable style={styles.cont}>
             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-              <FontAwesome5 name="cookie" size={22} color="#ff6000" />
+              <FontAwesome5 name="cookie" size={22} color="#303030" />
               <Text style={styles.txt}>Cookies</Text>
             </View>
-            <FontAwesome name="angle-right" size={24} color="#ff6000" />
+            <FontAwesome name="angle-right" size={24} color="#303030" />
           </Pressable>
           {/*  */}
           <Pressable style={styles.cont}>
             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-              <Octicons name="code-of-conduct" size={24} color="#ff6000" />
+              <Octicons name="code-of-conduct" size={24} color="#303030" />
               <Text style={styles.txt}>Terms</Text>
             </View>
-            <FontAwesome name="angle-right" size={24} color="#ff6000" />
+            <FontAwesome name="angle-right" size={24} color="#303030" />
           </Pressable>
           {/*  */}
           <Pressable style={styles.cont}>
             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-              <MaterialIcons name="cast-connected" size={22} color="#ff6000" />
+              <MaterialIcons name="cast-connected" size={22} color="#303030" />
               <Text style={styles.txt}>Connect with us</Text>
             </View>
-            <FontAwesome name="angle-right" size={24} color="#ff6000" />
+            <FontAwesome name="angle-right" size={24} color="#303030" />
           </Pressable>
           {/*  */}
           <Pressable style={styles.cont}>
             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-            <Entypo name="info" size={24} color="#ff6000" />
-            <Text style={styles.txt}>About</Text>
+            <Entypo name="info" size={24} color="#303030" />
+            <TouchableOpacity style={styles.txt}
+            onPress={handleLogout}
+            >
+              <Text style={{fontSize: 16, fontWeight: 500, color: 'red'}} 
+              >
+                Logout
+              </Text>
+            </TouchableOpacity>
             </View>
-            <FontAwesome name="angle-right" size={24} color="#ff6000" />
+            <FontAwesome name="angle-right" size={24} color="#303030" />
           </Pressable>
       </View>
       <View style={{flexDirection: 'row', gap: 2, alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
-        <FontAwesome5 name="copyright" size={13} color="#0f1b3d" />
-        <Text style={{fontSize: 20, fontWeight: 600, paddingBottom: 5, color: '#0f1b3d'}}>aaroncodes4</Text>
+        <FontAwesome5 name="copyright" size={13} color="#303030" />
+        <Text style={{fontSize: 20, fontWeight: 600, paddingBottom: 5, color: Colors.secondary}}>aaroncodes4</Text>
       </View>
       </ScrollView>
     </SafeAreaView>
@@ -152,7 +182,7 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    borderColor: "#ff6000",
+    borderColor: Colors.secondary,
     borderWidth: 3,
     backgroundColor: "grey",
     position: "absolute",
@@ -163,11 +193,11 @@ const styles = StyleSheet.create({
   txt: {
     fontSize: 18,
     fontWeight: 600,
-    color: Colors.primary,
+    color: Colors.secondary,
     marginHorizontal: 5,
   },
   cont: {
-    borderBottomColor: Colors.primary,
+    borderBottomColor: Colors.secondary,
     borderBottomWidth: 1,
     paddingBottom: 20,
     flexDirection: 'row',

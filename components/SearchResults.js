@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import Colors from "../constants/Colors";
 
 const SearchResults = ({ data, input, setInput }) => {
   const navigation = useNavigation();
@@ -33,6 +34,7 @@ const SearchResults = ({ data, input, setInput }) => {
                     eventVenue: item.venue,
                     eventTime: item.time,
                     eventRate: item.rate,
+                    eventDet: item.det,
                   });
                 }}
                 style={{ flexDirection: "row", alignItems: "center" }}
@@ -48,7 +50,7 @@ const SearchResults = ({ data, input, setInput }) => {
                 </View>
                 <View style={{ width: "80%" }}>
                   <Text
-                    style={{ fontSize: 24, fontWeight: 700, color: "#ff6000" }}
+                    style={{ fontSize: 24, fontWeight: 700, color: Colors.secondary }}
                   >
                     {item.event}
                   </Text>
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   imgcont: {
     width: 170,
     height: 130,
-    backgroundColor: "#ff6000",
+    backgroundColor: Colors.secondary,
     overflow: "hidden",
     marginHorizontal: 18,
     marginBottom: 18,
