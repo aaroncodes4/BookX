@@ -1,22 +1,17 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    FlatList,
-    Pressable,
-    ScrollView,
-    Image,
-  } from "react-native";
-  import React from "react";
-  import { useNavigation } from "@react-navigation/native";
-  import { SafeAreaView } from "react-native-safe-area-context";
-  import data from "../data";
-  import Colors from "../constants/Colors";
-  import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, Text, View, FlatList, Pressable, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
+import React from 'react'
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import Colors from "../constants/Colors";
+import data from "../data";
+import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
   
   const FilterTheatre = () => {
     const navigation = useNavigation();
     const Data = data;
+    const {width, height} = Dimensions.get('window');
     const filterd = Data.filter((item) => item.cat === "theatre");
     return (
       <SafeAreaView style={{ marginBottom: 80, marginTop: 10 }}>
@@ -38,67 +33,84 @@ import {
           <Ionicons name="search" size={24} color="grey" />
           <Text style={{ fontSize: 18, color: "grey" }}>Search for event</Text>
         </Pressable>
-        <ScrollView>
-          {filterd.map((item) => {
+        <ScrollView style={{marginHorizontal: 20}}>
+          {filterd.map(item => {
             return (
               <Pressable
-                key={item.id}
-                onPress={() =>
-                  navigation.navigate("Event", {
-                    eventName: item.event,
-                    eventDate: item.date,
-                    eventTime: item.time,
-                    eventVenue: item.venue,
-                    eventRate: item.rate,
-                    eventDet: item.det,
-                  })
-                }
-                style={{ marginVertical: 15 }}
-              >
-                <View
-                  style={{
-                    backgroundColor: Colors.primary,
-                    padding: 18,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 30,
-                  }}
-                >
-                  <View style={styles.imgcont}>
-                    <Image
-                      source={require("../assets/obd.jpg")}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        resizeMode: "cover",
-                      }}
-                    />
-                  </View>
-                  <View>
+              onPress={() =>
+                navigation.navigate("Event", {
+                  eventName: item.event,
+                  eventDate: item.date,
+                  eventTime: item.time,
+                  eventVenue: item.venue,
+                  eventRate: item.rate,
+                })
+              }
+              style={{
+                marginVertical: 10,
+                flexDirection: "row",
+                backgroundColor: "#fff",
+              }}
+            >
+         
+                <View>
+                  <Image
+                    source={require("../assets/obd.jpg")}
+                    style={{
+                      width: "100%",
+                      height: height/4,
+                      width: width - 280,
+                    }}
+                  />
+                </View>
+                <View style={{padding: 10}}>
+                  <View style={{flexDirection: "row", justifyContent: 'space-between', alignItems: 'center'}}>
                     <Text
-                      style={{ fontSize: 25, color: "#fff", fontWeight: 700 }}
+                      style={{ width: 200, fontSize: 25, color: "#000", fontWeight: 700 }}
                     >
                       {item.event}
                     </Text>
-                    <Text
-                      style={{ fontSize: 18, color: "#fff", fontWeight: 500 }}
-                    >
-                      {item.venue}
-                    </Text>
-                    <Text
-                      style={{ fontSize: 18, color: "#fff", fontWeight: 500 }}
-                    >
-                      {item.date}
-                    </Text>
-                    <Text
-                      style={{ fontSize: 18, color: "#fff", fontWeight: 500 }}
-                    >
-                      {item.time}
-                    </Text>
+                    <Entypo name="heart-outlined" size={24} color="red" />
                   </View>
+                  <View style={{flexDirection: 'row', alignContent: 'center', gap: 10, marginTop: 7}}>
+                    <MaterialIcons name="stars" size={24} color="black" />
+                    <Text style={{fontSize: 20, fontWeight: 500}}>{item.rate}</Text>
+                    <View style={{backgroundColor: Colors.primary, borderRadius: 5, width: 100}}>
+                      <Text style={{textAlign: 'center', fontSize: 20}}>Popular</Text>
+                    </View>
+                  </View>
+                  <Text
+                    style={{ fontSize: 18, color: "#000", fontWeight: 500 }}
+                  >
+                    {item.venue}
+                  </Text>
+                  <Text
+                    style={{ fontSize: 18, color: "#000", fontWeight: 500 }}
+                  >
+                    {item.date}
+                  </Text>
+                  <Text
+                    style={{ fontSize: 18, color: "#000", fontWeight: 500 }}
+                  >
+                    {item.time}
+                  </Text>
+
+                  <Text
+                    style={{ fontSize: 18, color: "#000", fontWeight: 500 }}
+                  >
+                    {item.price}
+                  </Text>
+                  <Text
+                    style={{ fontSize: 18, color: "grey", fontWeight: 500 }}
+                  >
+                    Contact
+                  </Text>
+                  <TouchableOpacity onPress={() => navigation.navigate("Pay")} style={{backgroundColor: "grey", padding: 6, marginTop: 10}}>
+                    <Text style={{fontSize: 25, color: '#fff', textAlign: 'center'}}>Book now</Text>
+                  </TouchableOpacity>
                 </View>
-              </Pressable>
-            );
+            </Pressable>
+            )
           })}
         </ScrollView>
       </SafeAreaView>
@@ -108,11 +120,6 @@ import {
   export default FilterTheatre;
   
   const styles = StyleSheet.create({
-    imgcont: {
-      width: 150,
-      height: 100,
-      backgroundColor: Colors.light,
-      overflow: "hidden",
-    },
+  
   });
   
